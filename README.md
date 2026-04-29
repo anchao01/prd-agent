@@ -1,10 +1,100 @@
-# PRD 自动验收 & 测试用例生成 Agent
+🚀 PRD Auto Test Agent
+📌 项目简介
 
-## 安装
-pip install -r requirements.txt
+PRD Auto Test Agent 是一个基于大语言模型构建的PRD自动解析与测试用例生成系统，用于将非结构化产品需求文档自动转化为结构化验收标准与测试用例，实现需求 → 验收 → 测试的自动化链路。
 
-## 设置API Key
-export OPENAI_API_KEY=your_key
+❗ 一、项目解决的核心痛点
 
-## 运行
-python main.py --file example_prd.txt
+在传统软件研发流程中，PRD 到测试设计存在明显断层，本项目主要解决以下问题：
+
+1️⃣ PRD不可结构化 → 测试设计依赖经验
+PRD通常是自然语言描述
+QA需要人工理解并拆解功能点
+强依赖个人经验，标准不统一
+
+👉 导致：测试设计质量不稳定
+
+2️⃣ 验收标准缺失或模糊
+很多PRD没有明确 Given-When-Then 描述
+产品、开发、测试理解不一致
+
+👉 导致：需求不可验证、返工成本高
+
+3️⃣ 测试用例覆盖不完整
+异常场景（错误输入、接口失败）
+边界条件（最大/最小值）
+并发/极端情况
+
+👉 导致：线上风险不可控
+
+4️⃣ 研发流程割裂
+PRD、验收、测试设计之间缺乏自动化衔接
+无法形成统一标准化流程
+🧠 二、核心逻辑流（多阶段 + 长链推理）
+
+本项目采用分阶段长链推理（Multi-stage Reasoning Pipeline），将复杂任务拆解为多个可控推理步骤：
+
+🔗 1. PRD语义解析（Understanding Layer）
+
+输入：PRD原始文本
+
+输出：
+
+功能点拆解
+用户角色识别
+核心业务流程
+边界条件
+潜在风险点
+
+👉 本质：非结构化 → 结构化语义表示
+
+⚙️ 2. 验收标准生成（Specification Layer）
+
+基于解析结果生成：
+
+Given（前置条件）
+When（操作行为）
+Then（预期结果）
+
+👉 本质：将需求转化为可验证规则
+
+🧪 3. 测试用例生成（Execution Layer）
+
+基于验收标准自动扩展测试场景：
+
+正向测试用例
+异常测试用例
+边界测试用例
+
+👉 本质：规则 → 覆盖空间展开
+
+📦 4. 结构化输出（Integration Layer）
+输出 JSON 标准化格式
+可对接 Jira / TestRail / 自动化测试系统
+🤖 三、是否包含多 Agent 协同？
+
+当前版本采用：
+
+🟡 单Agent + 多阶段推理（Stage-based Agent）
+
+一个LLM通过不同Prompt完成分层任务：
+
+PRD解析 Prompt
+验收标准 Prompt
+测试用例 Prompt
+🚀 可扩展多Agent架构设计（设计预留）
+
+系统可升级为多Agent协同架构：
+
+Agent	职责
+Product Agent	PRD解析与需求建模
+QA Agent	验收标准与测试设计
+Reviewer Agent	逻辑检查与覆盖补全
+
+👉 用于提升一致性与减少推理偏差
+
+🎯 四、项目价值
+将 PRD → 测试设计自动化
+提升测试覆盖率与一致性
+降低 QA 依赖经验成本
+支持未来研发流程智能化升级
